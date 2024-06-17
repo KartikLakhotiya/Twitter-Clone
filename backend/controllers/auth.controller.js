@@ -19,7 +19,7 @@ export const signup = async (req, res) => {
             return res.status(400).json({ error: "Username already taken." })
         }
 
-        const existingEmail = await User.findOne({ username });
+        const existingEmail = await User.findOne({ email });
         if (existingEmail) {
             return res.status(400).json({ error: "Email already registered." })
         }
@@ -53,6 +53,8 @@ export const signup = async (req, res) => {
                 coverImg: newUser.coverImg
 
             })
+
+            console.log(`User Signed up ${newUser.email}`)
         }
         else {
             res.status(401).json({ error: "Invalid user data." })
@@ -91,6 +93,7 @@ export const login = async (req, res) => {
             coverImg: user.coverImg
 
         })
+        console.log(`User Logged in ${user.email}`)
 
     }
     catch (error) {
@@ -105,7 +108,8 @@ export const logout = async (req, res) => {
 
         res.cookie("jwt", "", { maxAge: 0 })
         res.status(200).json({ message: "Logged Out Successfully." })
-
+        console.log("Logged Out Successfully.")
+        
     } catch (error) {
 
         console.log(error)
@@ -119,6 +123,7 @@ export const getMe = async (req, res) => {
 
         const user = await User.findById(req.user._id).select("-password")
         res.status(200).json(user)
+        console.log(`User Fetched ${user.email}`)
 
     } catch (error) {
         console.log(error)
