@@ -99,8 +99,26 @@ export const login = async (req, res) => {
     }
 }
 
+//logout function
 export const logout = async (req, res) => {
-    res.json({
-        message: "You've reaced the logout endpoint"
-    })
+    try {
+
+        res.cookie("jwt", "", { maxAge: 0 })
+        res.status(200).json({ message: "Logged Out Successfully." })
+
+    } catch (error) {
+
+        console.log(error)
+        res.status(500).json({ error: "Internal Server Error" })
+
+    }
+}
+
+export const getMe = async (req, res) => {
+    try {
+        // const user = await User.findById(req.user._id)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: "Internal Server Error" })
+    }
 }
