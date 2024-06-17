@@ -70,8 +70,29 @@ export const signup = async (req, res) => {
 //login function
 export const login = async (req, res) => {
     try {
-        
-    } 
+
+        const { username, password } = req.body;
+        const user = await User.findOne({ username })
+        const isPassCorrect = await bcrypt.compare(password, user?.password || "")
+        if (!user || !isPassCorrect) {
+            return res.status(400).json({ error: "Invalid username or Password." })
+        }
+
+        generateTokenAndSetCookie(user._id, res);
+
+        res.status(201).json({
+            message: "User Logged in",
+            _id: user._id,
+            fullname: user.fullname,
+            email: user.email,
+            followers: user.followers,
+            following: user.following,
+            profileImg: user.profileImg,
+            coverImg: user.coverImg
+
+        })
+
+    }
     catch (error) {
         console.log(error)
         res.status(500).json({ error: "Internal Server Error" })
