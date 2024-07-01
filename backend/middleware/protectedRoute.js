@@ -7,7 +7,7 @@ export const protectedRoute = async (req, res, next) => {
         const token = req.cookies.jwt;
 
         if (!token) {
-            res.status(401).json({ error: "Unauthorised: No token provided or Login first." })
+            res.status(401).json({ error: "Unauthorised: No token provided or Login first.", message: "Cannot Get the user as no user is currently logged in." })
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET)

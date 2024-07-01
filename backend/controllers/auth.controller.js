@@ -109,7 +109,7 @@ export const logout = async (req, res) => {
         res.cookie("jwt", "", { maxAge: 0 })
         res.status(200).json({ message: "Logged Out Successfully." })
         console.log("Logged Out Successfully.")
-        
+
     } catch (error) {
 
         console.log(error)
@@ -127,6 +127,7 @@ export const getMe = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({ error: "Internal Server Error" })
+        console.log("Login First to fetch the User")
+        res.status(500).json({ error: "Internal Server Error", message: "Login First to fetch the User" })
     }
 }
